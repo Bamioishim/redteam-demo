@@ -1,0 +1,8 @@
+# Keep text portable across Windows checkouts and clean Linux rebuilds.
+* text=auto eol=lf
+
+# Never normalize bundled fonts or screenshots as text.
+*.woff2 binary
+*.png binary
+*.jpg binary
+*.jpeg binary

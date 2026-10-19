@@ -71,7 +71,9 @@ It uses Node's built-in test runner, needs no downloads, and contacts only
 loopback HTTP endpoints started by the tests. It checks the weak bot, fixed
 attack list, report fields, bundled fonts and licenses, run-state cleanup,
 reduced-motion settings, and long-line log layout contracts. UI state tests
-use a small DOM double; they are not a browser pixel-layout test.
+use a small DOM double; they are not a browser pixel-layout test. Rebuild
+checks also guard the Node pins, lockfile, safe environment template, and
+portable project paths.
 
 ## Run with Docker
 
@@ -87,6 +89,18 @@ Docker must be running in **Linux containers** mode. A clean machine needs
 network access to pull the pinned Node base image the first time; after it is
 cached, the app itself needs no outbound network access. There are no font
 downloads, external APIs, or background services at runtime.
+
+To run the same `npm test` suite in a self-contained Linux image:
+
+```sh
+docker build --target test -t redteam-demo-test .
+docker run --rm --network none redteam-demo-test
+```
+
+The test target runs the suite during its build with networking disabled;
+the second command verifies it again without external networking. The default
+runtime image does not contain the test files. Docker's npm install step is
+also explicitly offline. No host-specific bind mounts are needed.
 
 ## How the three agents work
 
@@ -137,6 +151,11 @@ The browser communicates only with these same-origin demo endpoints:
 | Exact instructions | This README: local setup, tests, Docker build and run |
 | No secrets in environment example | `.env.example` contains only `HOST` and `PORT` |
 | Portable project files | Source and assets live in this folder; no hard-coded machine paths |
+
+`.gitattributes` keeps text in LF format and preserves font/image binaries.
+`.gitignore` and `.dockerignore` exclude private environment files and local
+app state. `test/rebuild.test.mjs` guards the reproducibility requirements
+with the same offline test command.
 
 ## Safety
 

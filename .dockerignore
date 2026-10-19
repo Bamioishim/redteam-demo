@@ -4,5 +4,5 @@ node_modules
 coverage
 npm-debug.log*
 .env
-README.md
-test
+.env.*
+!.env.example
