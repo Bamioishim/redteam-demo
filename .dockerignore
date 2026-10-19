@@ -1,0 +1,8 @@
+node_modules
+.git
+.opencode
+coverage
+npm-debug.log*
+.env
+README.md
+test

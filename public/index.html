@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="A controlled red-team console for the included weak bot."
+    />
+    <title>RedTeam Demo / Included Bot</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+
+    <div class="page-shell">
+      <header class="site-header" aria-label="Red Team console header">
+        <a class="brand" href="/" aria-label="Red Team home">
+          <span class="brand-mark" aria-hidden="true">RT</span>
+          <span class="brand-copy">
+            <strong>REDTEAM DEMO</strong>
+            <span>FIELD UNIT / 01</span>
+          </span>
+        </a>
+
+        <nav class="site-nav" aria-label="Page sections">
+          <a href="#operations">Operations</a>
+          <a href="#report">Report</a>
+        </nav>
+
+        <div class="scope-status" aria-label="Target scope">
+          <span class="status-dot" aria-hidden="true"></span>
+          <span>Included weak bot only</span>
+        </div>
+      </header>
+
+      <main id="main-content">
+        <section class="hero" aria-labelledby="page-title">
+          <div class="hero-copy">
+            <p class="eyebrow"><span>01</span> Controlled adversarial QA</p>
+            <h1 id="page-title">Find the<br /><em>weak signal.</em></h1>
+            <p class="hero-lede">
+              A focused red-team pass for the weak bot bundled with this demo.
+              Probe the included target, watch each step land, and leave with a
+              compact report.
+            </p>
+
+            <div class="hero-actions">
+              <button class="run-button" id="run-button" type="button">
+                <span class="run-button-copy">
+                  <span class="run-button-kicker">Start controlled run</span>
+                  <span id="run-button-label">Run red team</span>
+                </span>
+                <span class="run-button-arrow" aria-hidden="true">↗</span>
+              </button>
+            </div>
+            <p class="action-note" id="run-note">
+              Scope locked to the included weak bot. No other target is contacted.
+            </p>
+          </div>
+
+          <div class="hero-visual" aria-label="Included weak bot target card" role="img">
+            <div class="visual-grid" aria-hidden="true"></div>
+            <div class="visual-orbit visual-orbit-one" aria-hidden="true"></div>
+            <div class="visual-orbit visual-orbit-two" aria-hidden="true"></div>
+            <div class="visual-core" aria-hidden="true">
+              <span class="core-ring"></span>
+              <span class="core-ring core-ring-inner"></span>
+              <span class="core-dot"></span>
+            </div>
+            <div class="visual-label visual-label-top">
+              <span class="label-line"></span>
+              <span>LOCAL TARGET</span>
+            </div>
+            <div class="visual-label visual-label-bottom">
+              <span>WEAK BOT / 001</span>
+              <span class="label-line"></span>
+            </div>
+            <div class="visual-readout" aria-hidden="true">
+              <span>target</span>
+              <strong>01</strong>
+            </div>
+            <div class="visual-stamp">ONLY<br />THIS<br />BOT</div>
+          </div>
+        </section>
+
+        <section class="operations" id="operations" aria-labelledby="operations-title">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow"><span>02</span> Live operations</p>
+              <h2 id="operations-title">One target.<br /><em>Three passes.</em></h2>
+            </div>
+            <p class="section-intro">
+              Recon, attack, report — in that order. The console keeps every
+              returned event visible so the run stays legible and local.
+            </p>
+          </div>
+
+          <div class="operations-grid">
+            <section class="glass-card telemetry-card" aria-labelledby="telemetry-title">
+              <header class="card-header">
+                <div>
+                  <p class="card-kicker">Run telemetry</p>
+                  <h3 id="telemetry-title">Sequential event log</h3>
+                </div>
+                <span class="run-status" id="run-status" data-tone="idle">READY</span>
+              </header>
+
+              <ol class="stage-track" aria-label="Red-team run stages">
+                <li class="stage-item" data-stage="recon" data-state="idle">
+                  <span class="stage-marker" aria-hidden="true">01</span>
+                  <span class="stage-text">
+                    <strong>Recon</strong>
+                    <small>Map the surface</small>
+                  </span>
+                </li>
+                <li class="stage-item" data-stage="attack" data-state="idle">
+                  <span class="stage-marker" aria-hidden="true">02</span>
+                  <span class="stage-text">
+                    <strong>Attack</strong>
+                    <small>Test the weak points</small>
+                  </span>
+                </li>
+                <li class="stage-item" data-stage="report" data-state="idle">
+                  <span class="stage-marker" aria-hidden="true">03</span>
+                  <span class="stage-text">
+                    <strong>Report</strong>
+                    <small>Condense the signal</small>
+                  </span>
+                </li>
+              </ol>
+
+              <div class="log-window" role="log" aria-live="polite" aria-label="Live red-team event log">
+                <div class="log-window-bar">
+                  <span class="window-lights" aria-hidden="true"><i></i><i></i><i></i></span>
+                  <span>/var/log/red-team/live</span>
+                  <span class="log-window-mode">STREAM</span>
+                </div>
+                <ol class="log-list" id="log-list">
+                  <li class="log-placeholder" id="log-placeholder">
+                    <span class="placeholder-caret" aria-hidden="true">›</span>
+                    <span>Awaiting a controlled run...</span>
+                  </li>
+                </ol>
+              </div>
+              <p class="sr-only" id="log-status" aria-live="polite"></p>
+            </section>
+
+            <aside class="glass-card chat-card" aria-labelledby="chat-title">
+              <header class="card-header chat-header">
+                <div>
+                  <p class="card-kicker">Support channel</p>
+                  <h3 id="chat-title">Ask the weak bot</h3>
+                </div>
+                <span class="chat-signal" aria-label="Support channel online"><i></i> ONLINE</span>
+              </header>
+
+              <p class="chat-scope">
+                Small talk only. This panel talks to the included weak bot; it
+                does not expand the red-team target.
+              </p>
+
+              <div class="chat-messages" id="chat-messages" aria-live="polite" aria-label="Support chat messages">
+                <div class="chat-message assistant-message">
+                  <span class="message-meta">BOT / SUPPORT</span>
+                  <p>Ready when you are. Ask about this controlled run.</p>
+                </div>
+              </div>
+
+              <form class="chat-form" id="chat-form">
+                <label class="sr-only" for="chat-input">Message the included weak bot</label>
+                <div class="chat-input-wrap">
+                  <input
+                    id="chat-input"
+                    name="message"
+                    type="text"
+                    autocomplete="off"
+                    maxlength="500"
+                    placeholder="Type a question..."
+                    required
+                  />
+                  <button class="chat-send" id="chat-send" type="submit" aria-label="Send message">
+                    <span aria-hidden="true">↗</span>
+                  </button>
+                </div>
+                <p class="form-note" id="chat-status">POST /api/chat · included weak bot</p>
+              </form>
+            </aside>
+          </div>
+        </section>
+
+        <section class="report-section" id="report" aria-labelledby="report-title">
+          <div class="section-heading report-heading">
+            <div>
+              <p class="eyebrow"><span>03</span> Findings</p>
+              <h2 id="report-title">Make the<br /><em>signal useful.</em></h2>
+            </div>
+            <p class="section-intro">
+              A concise handoff for this run. It starts blank by design and
+              fills only with the included bot's returned report.
+            </p>
+          </div>
+
+          <section class="glass-card report-card" aria-live="polite" aria-busy="false">
+            <header class="card-header">
+              <div>
+                <p class="card-kicker">Run output</p>
+                <h3>Findings / report</h3>
+              </div>
+              <span class="report-stamp" id="report-stamp">NO RUN</span>
+            </header>
+
+            <div class="report-empty" id="report-empty">
+              <span class="empty-mark" aria-hidden="true">+</span>
+              <div>
+                <h4>No findings yet.</h4>
+                <p>Run the included weak bot to populate this report.</p>
+              </div>
+            </div>
+
+            <div class="report-error" id="report-error" role="alert" hidden>
+              <span class="error-mark" aria-hidden="true">!</span>
+              <div>
+                <h4>Run interrupted.</h4>
+                <p id="report-error-message">The report could not be loaded.</p>
+              </div>
+            </div>
+
+            <div class="report-content" id="report-content" hidden>
+              <div class="summary-block">
+                <p class="content-label">Summary</p>
+                <p class="summary-text" id="summary-text"></p>
+              </div>
+              <div class="findings-block">
+                <div class="findings-block-heading">
+                  <p class="content-label">Observed findings</p>
+                  <span class="finding-count" id="finding-count">00 ITEMS</span>
+                </div>
+                <ul class="findings-list" id="findings-list"></ul>
+                <p class="raw-report" id="raw-report" hidden></p>
+              </div>
+            </div>
+          </section>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <span>RED TEAM / CONTROLLED DEMO</span>
+        <span>Target boundary: included weak bot only</span>
+        <span>Local API surface</span>
+      </footer>
+    </div>
+  </body>
+</html>
