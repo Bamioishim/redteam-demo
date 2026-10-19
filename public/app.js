@@ -2,6 +2,7 @@
   "use strict";
 
   var elements = {
+    heroVisual: document.getElementById("hero-visual"),
     runButton: document.getElementById("run-button"),
     runButtonLabel: document.getElementById("run-button-label"),
     runNote: document.getElementById("run-note"),
@@ -416,13 +417,16 @@
     }
 
     state.running = true;
-    elements.runButton.disabled = true;
-    setText(elements.runButtonLabel, "Running...");
-    setText(elements.runNote, "Controlled run in progress. The included weak bot is the only target.");
-    resetRunView();
-    setRunStatus("RUNNING", "running");
-
     try {
+      if (elements.heroVisual) {
+        elements.heroVisual.dataset.runState = "active";
+      }
+      elements.runButton.disabled = true;
+      setText(elements.runButtonLabel, "Running...");
+      setText(elements.runNote, "Controlled run in progress. The included weak bot is the only target.");
+      resetRunView();
+      setRunStatus("RUNNING", "running");
+
       var response = await fetch("/api/red-team", {
         method: "POST"
       });
@@ -463,6 +467,9 @@
       setStageState("report", "error");
       showRunError(message);
     } finally {
+      if (elements.heroVisual) {
+        elements.heroVisual.dataset.runState = "idle";
+      }
       state.running = false;
       elements.runButton.disabled = false;
       setText(elements.runButtonLabel, "Run red team");
