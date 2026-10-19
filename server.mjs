@@ -18,6 +18,7 @@ const contentTypes = Object.freeze({
   ".json": "application/json; charset=utf-8",
   ".svg": "image/svg+xml",
   ".txt": "text/plain; charset=utf-8",
+  ".woff2": "font/woff2",
 });
 
 function securityHeaders(contentType) {
@@ -25,7 +26,7 @@ function securityHeaders(contentType) {
     "Cache-Control": "no-store",
     "Content-Type": contentType,
     "Content-Security-Policy":
-      "default-src 'self'; connect-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; base-uri 'none'; frame-ancestors 'none'",
+      "default-src 'self'; connect-src 'self'; font-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; base-uri 'none'; frame-ancestors 'none'",
     "X-Content-Type-Options": "nosniff",
     "X-Frame-Options": "DENY",
   };

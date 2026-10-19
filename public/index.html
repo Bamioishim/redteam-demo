@@ -8,6 +8,20 @@
       content="A controlled red-team console for the included weak bot."
     />
     <title>RedTeam Demo / Included Bot</title>
+    <link
+      rel="preload"
+      href="/fonts/inter/files/inter-latin-wght-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="preload"
+      href="/fonts/doto/files/doto-latin-wght-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin="anonymous"
+    />
     <link rel="stylesheet" href="/styles.css" />
     <script src="/app.js" defer></script>
   </head>
@@ -20,7 +34,7 @@
           <span class="brand-mark" aria-hidden="true">RT</span>
           <span class="brand-copy">
             <strong>REDTEAM DEMO</strong>
-            <span>FIELD UNIT / 01</span>
+            <span>FIELD UNIT / <span class="stat-number">01</span></span>
           </span>
         </a>
 
@@ -74,7 +88,7 @@
               <span>LOCAL TARGET</span>
             </div>
             <div class="visual-label visual-label-bottom">
-              <span>WEAK BOT / 001</span>
+              <span>WEAK BOT / <span class="stat-number">001</span></span>
               <span class="label-line"></span>
             </div>
             <div class="visual-readout" aria-hidden="true">

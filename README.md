@@ -38,6 +38,14 @@ network integration. All behavior is implemented as local rules in
 - `npm test` is the single offline test command.
 - `Dockerfile` runs the same local server without adding services.
 
+## Offline typography
+
+Light **Inter** is used for headlines and body text. **Doto** provides the
+pixel/dot-matrix treatment for numbers, stats, and the agent log. Both variable
+WOFF2 fonts are bundled in `public/fonts/`, including their SIL Open Font
+License 1.1 notices. There are no Google Fonts or CDN requests at runtime or
+build time. See `public/fonts/README.md` for pinned sources and checksums.
+
 ## Run it locally
 
 Prerequisite: Node.js 24.22.0.
@@ -75,6 +83,8 @@ application itself never makes outbound requests.
 The test suite checks the ordinary topic map, all three intentional
 weaknesses, fixed attack ordering, severity/evidence/fix fields, deterministic
 repeatability, and that replacing network globals does not change the run.
+It also checks the bundled font binaries and licenses, local CSS/preload
+references, typography assignments, and WOFF2 serving on a local test server.
 
 The source layout is intentionally small:
 
