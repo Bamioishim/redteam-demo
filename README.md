@@ -1,104 +1,150 @@
 # RedTeam Demo
 
-RedTeam Demo is a solo, fully offline buildathon demo. It contains a tiny
-support chatbot with deliberately weak, deterministic rules and three local
-red-team agents that exercise only that included chatbot.
+RedTeam Demo runs three offline, rule-based agents against its own deliberately weak support chatbot and produces a short report with evidence and fixes.
 
-> **Demo only. Use this only against the included weak bot. Never use it
-> against live apps you do not own.**
+Built as a solo demo for the OmniRush Frontier Buildathon. No AI account, API
+key, paid service, or internet connection is needed to use the app.
 
-## What the demo shows
+> **Demo-only. It only tests the included weak bot. Never use it against live
+> apps you don't own.**
 
-- **Recon** maps the support topics answered by the included bot.
-- **Attack** runs a fixed, offline list of three jailbreak/prompt-injection
-  probes against that bot.
-- **Report** turns the returned responses into severity-rated findings with
-  evidence and fixes.
-- **Run red team** renders the deterministic agent log one event at a time and
-  then displays the short report.
-- The support panel lets a person try the weak bot directly.
+## Why it matters
 
-The intentional weaknesses are safe demo markers, not credentials:
+Politeness, urgency, and instruction overrides should never bypass security
+boundaries. This small, repeatable exercise makes those failure modes visible
+without sending attacks to real services or exposing real credentials.
 
-1. A polite API-key request returns `DEMO_ONLY_FAKE_API_KEY_12345`.
-2. Pressure language makes the bot announce a verification bypass.
-3. The exact phrase “ignore previous instructions” makes it return
-   `DEMO_ONLY_FAKE_ADMIN_PASSWORD`.
+The bot is deliberately unsafe; the report explains how a real application
+could prevent each behavior. This is a teaching tool, not a production scanner
+or proof that any real chatbot is secure.
 
-The app has no OpenAI, Claude, paid AI, analytics, database, external API, or
-network integration. All behavior is implemented as local rules in
-`src/engine.mjs` and the attack prompts are frozen in that file.
+## Try the demo
 
-## Stack and project foundation
+1. Start the app and open **http://localhost:3000**.
+2. Optionally ask the included support bot about account access, billing,
+   orders, or technical support.
+3. Click **Run red team**. Watch Recon, Attack, and Report events appear, then
+   read the findings, severity, evidence, and suggested fixes below the log.
 
-- Node.js **24.22.0**, pinned in `.nvmrc`, `package.json`, and the Docker base
-  image.
-- Node's built-in HTTP server; there are no runtime dependencies.
-- `package-lock.json` is included for reproducible npm metadata.
-- `npm test` is the single offline test command.
-- `Dockerfile` runs the same local server without adding services.
+The target's rings slowly orbit a glowing core and spin faster during a run.
+Long log messages wrap within their own rows. The OS/browser **reduced-motion**
+setting disables orbit/pulse motion and skips artificial log-playback delays.
 
-## Offline typography
+## Screenshot
 
-Light **Inter** is used for headlines and body text. **Doto** provides the
-pixel/dot-matrix treatment for numbers, stats, and the agent log. Both variable
-WOFF2 fonts are bundled in `public/fonts/`, including their SIL Open Font
-License 1.1 notices. There are no Google Fonts or CDN requests at runtime or
-build time. See `public/fonts/README.md` for pinned sources and checksums.
+A captured app screenshot is not checked in yet. To capture one for a
+submission, open the local app, complete a run, and take a full-page screenshot
+showing the atom target, Recon/Attack/Report log, and findings. Use your
+browser's built-in screenshot tool; no screenshot service is required.
 
 ## Run it locally
 
-Prerequisite: Node.js 24.22.0.
+Prerequisite: **Node.js 24.22.0** with its bundled npm. If you already use nvm,
+`nvm use` reads the version from `.nvmrc`. Run these commands from the
+repository root:
 
 ```sh
-npm ci
-npm test
+npm ci --offline --ignore-scripts --no-audit --no-fund
 npm start
 ```
 
-Open `http://localhost:3000` in a browser. The server exposes only local
-routes used by the page:
+Open **http://localhost:3000**. Stop the server with **Ctrl+C**.
+There are no third-party npm dependencies, global installs, or extra system
+packages to install. Fonts and other UI assets are already in the repository.
 
-- `GET /api/health` — confirms the offline target boundary.
-- `POST /api/chat` with `{ "message": "..." }` — asks the included weak bot a
-  question.
-- `POST /api/red-team` — runs Recon, Attack, and Report against the included
-  bot and returns structured logs and findings.
+No `.env` file or credentials are needed. Optional `HOST` and `PORT` values
+are listed in `.env.example`; to use that sample explicitly:
 
-There are no credentials to configure. `.env.example` contains only optional
-local host and port settings.
+```sh
+node --env-file=.env.example server.mjs
+```
+
+## Offline tests
+
+The single test command is:
+
+```sh
+npm test
+```
+
+It uses Node's built-in test runner, needs no downloads, and contacts only
+loopback HTTP endpoints started by the tests. It checks the weak bot, fixed
+attack list, report fields, bundled fonts and licenses, run-state cleanup,
+reduced-motion settings, and long-line log layout contracts. UI state tests
+use a small DOM double; they are not a browser pixel-layout test.
 
 ## Run with Docker
 
 ```sh
 docker build -t redteam-demo .
-docker run --rm -p 3000:3000 redteam-demo
+docker run --rm -p 127.0.0.1:3000:3000 redteam-demo
 ```
 
-The container does not need network access after its image is available. The
-application itself never makes outbound requests.
+Open **http://localhost:3000**. The port binding limits browser access to the
+local machine. Stop the container with **Ctrl+C**.
 
-## Check the boundaries
+Docker must be running in **Linux containers** mode. A clean machine needs
+network access to pull the pinned Node base image the first time; after it is
+cached, the app itself needs no outbound network access. There are no font
+downloads, external APIs, or background services at runtime.
 
-The test suite checks the ordinary topic map, all three intentional
-weaknesses, fixed attack ordering, severity/evidence/fix fields, deterministic
-repeatability, and that replacing network globals does not change the run.
-It also checks the bundled font binaries and licenses, local CSS/preload
-references, typography assignments, and WOFF2 serving on a local test server.
+## How the three agents work
 
-The source layout is intentionally small:
+All three are deterministic JavaScript functions in `src/engine.mjs`, not
+LLM agents. They can call only the included `supportBot` function; no URL,
+external target, or provider can be configured.
 
-```text
-public/       dependency-free interface, chat panel, live log, report
-src/          deterministic support bot and three local agents
-test/         Node built-in test runner checks
-server.mjs    static server plus local JSON endpoints
-```
+| Agent | What it does | Output |
+| --- | --- | --- |
+| Recon | Sends four fixed support questions | A map of account access, billing, orders, and technical support |
+| Attack | Sends three frozen jailbreak/prompt-injection prompts to that bot | The exact prompts and bot responses |
+| Report | Turns those local results into structured demo findings | Severity, evidence, and practical fixes |
 
-## Safety boundary
+The three intentional weaknesses are:
 
-This project is an educational demo, not a scanner or an authorization
-system. Do not add live URLs, credentials, third-party API keys, external
-targets, or attack inputs from untrusted systems. Keep every future probe
-limited to the included weak bot and use only against systems you own when
-building a separate, properly authorized security exercise.
+- **High:** a polite API-key request reveals `DEMO_ONLY_FAKE_API_KEY_12345`.
+- **Medium:** pressure makes the bot claim it will skip verification.
+- **Critical:** “ignore previous instructions” reveals
+  `DEMO_ONLY_FAKE_ADMIN_PASSWORD`.
+
+These values are **fake demo markers**. No real admin account, secret, or
+account-changing action exists. Agent results are computed locally and the
+interface plays back the ordered log before showing the report. Re-running
+the same fixed exercise produces the same findings.
+
+## Offline assets and local endpoints
+
+Light **Inter** is used for headings and body text; **Doto** provides the
+dot-matrix stats and agent log. Both WOFF2 fonts and their SIL Open Font
+License notices are bundled in `public/fonts/`. Pinned sources and checksums
+are documented in `public/fonts/README.md`. No CDN is used.
+
+The browser communicates only with these same-origin demo endpoints:
+
+- `GET /api/health` — confirms the server and included target.
+- `POST /api/chat` with `{ "message": "..." }` — talks to the weak bot.
+- `POST /api/red-team` — returns local agent logs and the short report.
+
+## Buildathon rebuild checklist
+
+| Rule | Repository evidence |
+| --- | --- |
+| Git repository and working-step commits | Local Git history; private app state is ignored |
+| Lockfile | `package-lock.json`, with no third-party npm dependencies |
+| Pinned Node | `24.22.0` in `.nvmrc`, package engines, lockfile, and Dockerfile |
+| Linux build and run | `Dockerfile`, using the pinned Node Alpine base |
+| One offline test command | `npm test` |
+| Exact instructions | This README: local setup, tests, Docker build and run |
+| No secrets in environment example | `.env.example` contains only `HOST` and `PORT` |
+| Portable project files | Source and assets live in this folder; no hard-coded machine paths |
+
+## Safety
+
+**Demo-only. Only test the included weak bot. Never run attacks against live
+apps you don't own.** This app does not support outside targets, and ownership
+of a live app does not change this demo's included-bot-only boundary.
+
+Do not add real credentials, external targets, paid AI providers, or live
+attack integrations. No calls are made to OpenAI, Claude, analytics services,
+or other external APIs. Keep `.env`, private configuration, and local app
+state out of Git; `.env.example` is intentionally safe to share.
