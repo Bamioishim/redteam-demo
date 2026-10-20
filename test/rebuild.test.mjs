@@ -66,8 +66,10 @@ test("the README explains the outcome, setup, agents, screenshot, and safety bou
   }
   const prose = readme.replace(/\s+/g, " ");
   assert.match(prose, /Demo-only/i);
+  assert.match(prose, /This demo only attacks its built-in sample app/i);
   assert.match(prose, /Only test the included weak bot/);
   assert.match(prose, /Never run attacks against live apps you don't own/);
+  assert.match(prose, /Further upgrades beyond this sample are planned after the contest/i);
   assert.match(readme, /npm test/);
   assert.match(readme, /docker build -t redteam-demo \./);
 });

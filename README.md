@@ -5,8 +5,9 @@ RedTeam Demo runs three offline, rule-based agents against its own deliberately 
 Built as a solo demo for the OmniRush Frontier Buildathon. No AI account, API
 key, paid service, or internet connection is needed to use the app.
 
-> **Demo-only. It only tests the included weak bot. Never use it against live
-> apps you don't own.**
+> **Demo-only. This demo only attacks its built-in sample app. Only test the
+> included weak bot. Never use it against live apps you don't own. Further
+> upgrades beyond this sample are planned after the contest.**
 
 ## Why it matters
 
@@ -36,6 +37,18 @@ A captured app screenshot is not checked in yet. To capture one for a
 submission, open the local app, complete a run, and take a full-page screenshot
 showing the atom target, Recon/Attack/Report log, and findings. Use your
 browser's built-in screenshot tool; no screenshot service is required.
+
+## Demo video
+
+`public/demo-video.html` is a standalone, unlinked 54-second product reel. It
+uses the supplied RedTeam logo and the same bundled fonts and visual language as
+the main site, and it loops a 1920×1080 16:9 motion composition through the
+scope lock, live scan, and report. It is intentionally not linked from
+`public/index.html`.
+
+With the local server running, open **http://localhost:3000/demo-video.html**.
+The reel uses only the built-in sample app story; it does not contact a live
+target or make an external request.
 
 ## Run it locally
 
@@ -159,9 +172,11 @@ with the same offline test command.
 
 ## Safety
 
-**Demo-only. Only test the included weak bot. Never run attacks against live
-apps you don't own.** This app does not support outside targets, and ownership
-of a live app does not change this demo's included-bot-only boundary.
+**Demo-only. This demo only attacks its built-in sample app. Only test the
+included weak bot. Never run attacks against live apps you don't own. Further
+upgrades beyond this sample are planned after the contest.** This app does not
+support outside targets, and ownership of a live app does not change this
+demo's included-bot-only boundary.
 
 Do not add real credentials, external targets, paid AI providers, or live
 attack integrations. No calls are made to OpenAI, Claude, analytics services,
