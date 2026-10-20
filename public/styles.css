@@ -159,18 +159,22 @@ button:disabled {
 }
 
 .brand-mark {
-  display: grid;
-  place-items: center;
-  width: 36px;
-  height: 36px;
-  border: 1px solid var(--orange);
-  border-radius: 50%;
-  color: var(--orange-bright);
-  font-family: var(--sans);
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: -0.02em;
+  display: block;
+  flex: 0 0 56px;
+  width: 56px;
+  height: 56px;
+  overflow: hidden;
+  border: 1px solid rgba(243, 231, 208, 0.2);
+  border-radius: 14px;
+  background: #050505;
   box-shadow: 0 0 22px rgba(235, 107, 39, 0.2);
+}
+
+.brand-mark img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .brand-copy {

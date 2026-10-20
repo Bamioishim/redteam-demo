@@ -24,6 +24,18 @@ const fonts = [
   },
 ];
 
+test("the supplied RedTeam logo is bundled and used by the page", async () => {
+  const logo = await readFile(new URL("public/logo.jpg", root));
+  const html = await readFile(new URL("public/index.html", root), "utf8");
+  const css = await readFile(new URL("public/styles.css", root), "utf8");
+
+  assert.equal(logo.subarray(0, 3).toString("hex"), "ffd8ff");
+  assert.equal(createHash("sha256").update(logo).digest("hex"), "403b05f0a066fb4f67b6e2fdfe57df6c6c9e2e81f0cc60c9e0a99699ef2e13b9");
+  assert.match(html, /<link rel="icon" href="\/logo\.jpg" type="image\/jpeg" \/>/);
+  assert.match(html, /<span class="brand-mark" aria-hidden="true">\s*<img src="\/logo\.jpg" alt=""/);
+  assert.match(css, /\.brand-mark img\s*\{/);
+});
+
 for (const font of fonts) {
   test(`${font.family} is bundled as a complete, licensed WOFF2 binary`, async () => {
     const bytes = await readFile(new URL(`public/${font.path}`, root));
@@ -133,4 +145,11 @@ test("the local app serves both fonts with the correct MIME type and CSP", { tim
     assert.equal(head.status, 200);
     assert.equal(head.headers.get("content-type"), "font/woff2");
   }
+
+  const logoResponse = await fetch(`${base}/logo.jpg`, { signal: AbortSignal.timeout(2_000) });
+  assert.equal(logoResponse.status, 200, "the supplied logo is served");
+  assert.equal(logoResponse.headers.get("content-type"), "image/jpeg");
+  assert.match(logoResponse.headers.get("content-security-policy"), /img-src 'self'/);
+  const logoBytes = Buffer.from(await logoResponse.arrayBuffer());
+  assert.equal(createHash("sha256").update(logoBytes).digest("hex"), "403b05f0a066fb4f67b6e2fdfe57df6c6c9e2e81f0cc60c9e0a99699ef2e13b9");
 });
